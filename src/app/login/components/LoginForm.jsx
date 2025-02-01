@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const handleSubmit = async (e) => {
@@ -12,7 +13,13 @@ const LoginForm = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    await signIn("credentials", { email, password });
+
+    try {
+      await signIn("credentials", { email, password, callbackUrl: "/" });
+    } catch (error) {
+      console.log(error);
+      toast("Login failed. Please check your credentials.");
+    }
   };
 
   return (
