@@ -8,7 +8,7 @@ export const registerUser = async (payload) => {
 
   // validation
   if (!payload.email || !payload.password) {
-    return { success: false };
+    return null;
   }
 
   const user = await usersCollection.findOne({ email: payload.email });
@@ -18,8 +18,9 @@ export const registerUser = async (payload) => {
     payload.password = hashedPassword;
 
     const result = await usersCollection.insertOne(payload);
+    result.insertedId = result.insertedId.toString();
     return result;
   }
 
-  return { success: false };
+  return null;
 };

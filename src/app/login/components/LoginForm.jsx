@@ -5,20 +5,41 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
 
     try {
-      await signIn("credentials", { email, password, callbackUrl: "/" });
+      const response = await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/",
+        redirect: false,
+      });
+
+      if (response.ok) {
+        router.push("/");
+        setLoading(false);
+      } else {
+        toast.error("Authentication failed! Check your credentials.");
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
-      toast("Login failed. Please check your credentials.");
+      toast.error("Something went wrong!");
+      setLoading(false);
     }
   };
 
@@ -50,9 +71,10 @@ const LoginForm = () => {
             required
           />
         </div>
-        <Button type="submit" className="w-full">
-          Login
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Login"}
         </Button>
+
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
             Or continue with
