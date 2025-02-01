@@ -3,34 +3,28 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { registerUser } from "@/app/actions/auth/registerUser";
+import { signIn } from "next-auth/react";
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
-    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    const payload = { name, email, password };
-
-    await registerUser(payload);
+    await signIn("credentials", { email, password });
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-6 md:p-8">
-      <div className="flex flex-col gap-3 2xl:gap-4">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col items-center text-center">
-          <h1 className="text-2xl font-bold">Register</h1>
+          <h1 className="text-2xl font-bold">Welcome back</h1>
           <p className="text-balance text-muted-foreground">
-            Register an account to continue
+            Login to your account
           </p>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="email">Name</Label>
-          <Input name="name" type="text" placeholder="Dave" required />
-        </div>
+
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -50,7 +44,7 @@ const RegisterForm = () => {
           />
         </div>
         <Button type="submit" className="w-full">
-          Register
+          Login
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -87,9 +81,9 @@ const RegisterForm = () => {
           </Button>
         </div>
         <div className="text-center text-sm">
-          Have an account?{" "}
-          <a href="/login" className="underline underline-offset-4">
-            Login
+          Don't have an account?{" "}
+          <a href="/register" className="underline underline-offset-4">
+            Register
           </a>
         </div>
       </div>
@@ -97,4 +91,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
