@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { MoveRight } from "lucide-react";
+import Link from "next/link";
 
 export default function ServiceCard({ item }) {
   return (
@@ -33,13 +35,17 @@ export default function ServiceCard({ item }) {
 
       {/* Card Content */}
       <CardContent>
-        <p className="text-sm text-gray-700 line-clamp-3">{item.description}</p>
+        <p className="text-sm text-gray-700 line-clamp-2">{item.description}</p>
       </CardContent>
 
       {/* Card Footer */}
-      <CardFooter className="flex justify-between items-center">
-        <Button variant="outline">View Details</Button>
-        <Button>Book Now</Button>
+      <CardFooter>
+        <Link href={`/services/${item._id}`}>
+          <Button>
+            Details
+            <MoveRight />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );
