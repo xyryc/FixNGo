@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
+import ServicesSection from "./components/ServicesSection";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Hello World</h1>
-      <Button>Button</Button>
+    <div className="container mx-auto px-4">
+      <ServicesSection />
     </div>
   );
 }
