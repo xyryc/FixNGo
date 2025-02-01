@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 
 import Image from "next/image";
@@ -19,7 +18,7 @@ export default function RegisterPage({ className, ...props }) {
             />
           </div>
 
-         <RegisterForm/>
+          <RegisterForm />
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">

@@ -3,17 +3,24 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { registerUser } from "@/app/actions/auth/registerUser";
 
 const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const payload = { name, email, password };
+
+    await registerUser(payload);
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-6 md:p-8">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 2xl:gap-4">
         <div className="flex flex-col items-center text-center">
           <h1 className="text-2xl font-bold">Register</h1>
           <p className="text-balance text-muted-foreground">
@@ -22,23 +29,25 @@ const RegisterForm = () => {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Name</Label>
-          <Input id="email" type="email" placeholder="Dave" required />
+          <Input name="name" type="text" placeholder="Dave" required />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            name="email"
+            type="email"
+            placeholder="dave@example.com"
+            required
+          />
         </div>
         <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-            <a
-              href="#"
-              className="ml-auto text-sm underline-offset-2 hover:underline"
-            >
-              Forgot your password?
-            </a>
-          </div>
-          <Input id="password" type="password" required />
+          <Label htmlFor="password">Password</Label>
+          <Input
+            name="password"
+            type="password"
+            placeholder="******"
+            required
+          />
         </div>
         <Button type="submit" className="w-full">
           Login
