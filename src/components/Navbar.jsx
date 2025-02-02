@@ -1,4 +1,4 @@
-"use client"; // Required for client-side interactivity in Next.js
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +11,11 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // Icons for hamburger menu
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
+  const { data: session, status } = useSession();
+  console.log(session, status);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -62,21 +65,42 @@ export default function Navbar() {
 
       {/* User Dropdown (Desktop) */}
       <div className="hidden md:flex items-center gap-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
+        {status == "authenticated" ? (
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full "
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="User"
+                    />
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={() => signOut()}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        ) : (
+          <>
+            <Button asChild>
+              <Link href="/login">Login</Link>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </>
+        )}
 
         <Button>Appointment</Button>
       </div>

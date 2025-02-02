@@ -26,7 +26,7 @@ export default function ServiceCard({ item }) {
       </div>
 
       {/* Card Header */}
-      <CardHeader>
+      <CardHeader className="py-3">
         <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
         <CardDescription className="text-gray-600">
           ${item.price}
@@ -34,18 +34,18 @@ export default function ServiceCard({ item }) {
       </CardHeader>
 
       {/* Card Content */}
-      <CardContent>
+      <CardContent className="py-1">
         <p className="text-sm text-gray-700 line-clamp-2">{item.description}</p>
       </CardContent>
 
       {/* Card Footer */}
-      <CardFooter>
-        <Link href={`/services/${item._id}`}>
-          <Button>
+      <CardFooter className="py-2" >
+        <Button asChild variant="link">
+          <Link href={`/services/${item._id}`}>
             Details
             <MoveRight />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </CardFooter>
     </Card>
   );
