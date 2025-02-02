@@ -15,7 +15,7 @@ import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  console.log(session, status);
+  console.log(session);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -75,8 +75,8 @@ export default function Navbar() {
                 >
                   <Avatar className="h-8 w-8">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="User"
+                      src={session?.user?.image}
+                      alt={session?.email}
                     />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
@@ -138,31 +138,43 @@ export default function Navbar() {
           <Button>Appointment</Button>
 
           <div className="flex gap-4 items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-8 w-8 rounded-full"
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="User"
-                    />
-                    <AvatarFallback>U</AvatarFallback>
-                  </Avatar>
+            {status == "authenticated" ? (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-8 w-8 rounded-full "
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={session?.user?.image}
+                          alt={session?.email}
+                        />
+                        <AvatarFallback>U</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="text-red-600"
+                      onClick={() => signOut()}
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <>
+                <Button asChild className="w-full">
+                  <Link href="/login">Login</Link>
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem className="text-red-600">
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <p className="font-bold">John Doe</p>
+              </>
+            )}
+            <p className="font-bold">{session?.user?.name}</p>
           </div>
         </div>
       </div>
