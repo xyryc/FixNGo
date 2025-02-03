@@ -4,15 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Check } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function CheckoutForm({ data }) {
+  const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  const { _id, title, service_id, img, price, description, facility } = data;
+  const { _id, title, img, price, description, facility } = data;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const form = e.target;
     const name = form.name.value;
@@ -22,7 +26,7 @@ export default function CheckoutForm({ data }) {
     const address = form.address.value;
     const message = form.message.value;
 
-    const payload = {
+    const bookingPayload = {
       // session infos
       name,
       email,
@@ -31,8 +35,33 @@ export default function CheckoutForm({ data }) {
       date,
       address,
       message,
+
+      //   service info
+      service_id: _id,
+      service_name: title,
+      service_img: img,
+      service_price: price,
     };
-    console.log(payload);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/service`, {
+        method: "POST",
+        body: JSON.stringify(bookingPayload),
+      });
+      const postedRes = await res.json();
+
+      if (postedRes.insertedId) {
+        setLoading(false);
+        toast.success("Service Booked!");
+      } else {
+        setLoading(false);
+        toast.error("Something went wrong!");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Something went wrong!");
+      console.log(error);
+    }
   };
 
   return (
@@ -106,9 +135,13 @@ export default function CheckoutForm({ data }) {
         <Button
           type="submit"
           className="w-full flex items-center justify-center"
+          disabled={loading}
         >
-          Confirm Order
-          <Check className="ml-2 h-4 w-4" />
+          {loading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            "Confirm Order"
+          )}
         </Button>
       </form>
     </div>
