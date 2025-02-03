@@ -1,15 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import dbConnect, { collectionNames } from "@/lib/dbConnect";
-import { ObjectId } from "mongodb";
 import Image from "next/image";
 import React from "react";
 
 const ServiceDetailsPage = async ({ params }) => {
   const { id } = await params;
-
-  const serviceCollection = dbConnect(collectionNames.servicesCollection);
-  const data = await serviceCollection.findOne({ _id: new ObjectId(id) });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/service/${id}`);
+  const data = await res.json();
 
   const { _id, title, service_id, img, price, description, facility } = data;
 
