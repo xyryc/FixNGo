@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const ServiceDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -61,8 +62,9 @@ const ServiceDetailsPage = async ({ params }) => {
         {/* right */}
         <div className="col-span-3 space-y-8 text-center">
           <p className="text-4xl font-bold">Price: {price}</p>
-          <Button size="lg" className="w-full">
-            Proceed to Checkout
+
+          <Button size="lg" className="w-full" asChild>
+            <Link href={`/checkout/${_id}`}>Proceed to Checkout</Link>
           </Button>
         </div>
       </section>
