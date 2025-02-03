@@ -10,7 +10,6 @@ const ServiceDetailsPage = async ({ params }) => {
 
   const serviceCollection = dbConnect(collectionNames.servicesCollection);
   const data = await serviceCollection.findOne({ _id: new ObjectId(id) });
-  console.log(data);
 
   const { _id, title, service_id, img, price, description, facility } = data;
 
@@ -65,7 +64,9 @@ const ServiceDetailsPage = async ({ params }) => {
         {/* right */}
         <div className="col-span-3 space-y-8 text-center">
           <p className="text-4xl font-bold">Price: {price}</p>
-          <Button size="lg" className="w-full">Proceed to Checkout</Button>
+          <Button size="lg" className="w-full">
+            Proceed to Checkout
+          </Button>
         </div>
       </section>
     </div>
