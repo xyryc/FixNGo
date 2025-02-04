@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import DeleteBookingButton from "@/app/my-bookings/components/DeleteBookingButton";
 
 const BookingsTable = ({ data }) => {
   return (
@@ -19,6 +20,7 @@ const BookingsTable = ({ data }) => {
             <TableHead>Service Name</TableHead>
             <TableHead>Price</TableHead>
             <TableHead className="text-right">Date</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -37,6 +39,9 @@ const BookingsTable = ({ data }) => {
               <TableCell className="font-bold">{item.service_name}</TableCell>
               <TableCell>${item.service_price}</TableCell>
               <TableCell className="text-right">{item.date}</TableCell>
+              <TableCell className="text-right">
+                <DeleteBookingButton id={item._id} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
