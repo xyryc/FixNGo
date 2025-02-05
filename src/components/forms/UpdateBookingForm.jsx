@@ -6,14 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export default function UpdateBookingForm({ data }) {
-  console.log(data);
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  const { _id, title, img, price, description, facility } = data;
+  const router = useRouter();
+  const { _id, service_price, service_name, phone, date, address, message } =
+    data;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,18 +27,22 @@ export default function UpdateBookingForm({ data }) {
     const address = form.address.value;
     const message = form.message.value;
 
-    const bookingPayload = { phone, date, address, message };
+    const updatedPayload = { phone, date, address, message };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/service`, {
-        method: "POST",
-        body: JSON.stringify(bookingPayload),
-      });
-      const postedRes = await res.json();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/my-bookings/${_id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(updatedPayload),
+        }
+      );
+      const updatedRes = await res.json();
 
-      if (postedRes.insertedId) {
+      if (updatedRes.modifiedCount > 0) {
         setLoading(false);
-        toast.success("Service Booked!");
+        toast.success("Booking Updated!");
+        router.push("/my-bookings");
       } else {
         setLoading(false);
         toast.error("Something went wrong!");
@@ -52,12 +58,10 @@ export default function UpdateBookingForm({ data }) {
     <div className="border border-black/30 max-w-screen-sm mx-auto rounded-md p-10 sm:p-12">
       <div className="mb-4 items-center">
         <h1 className="text-2xl font-bold mb-2">
-          Update Booking: {data?.service_name}
+          Update Booking: {service_name}
         </h1>
 
-        <h1 className="text-lg font-bold opacity-90">
-          Price: {data?.service_price}
-        </h1>
+        <h1 className="text-lg font-bold opacity-90">Price: {service_price}</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -66,7 +70,7 @@ export default function UpdateBookingForm({ data }) {
           <div>
             <Label htmlFor="name">Name</Label>
             <Input
-              className="bg-black/10"
+              className="bg-black/10 cursor-not-allowed"
               defaultValue={session?.user?.name}
               name="name"
               placeholder="John"
@@ -77,7 +81,7 @@ export default function UpdateBookingForm({ data }) {
           <div>
             <Label htmlFor="email">Email</Label>
             <Input
-              className="bg-black/10"
+              className="bg-black/10 cursor-not-allowed"
               defaultValue={session?.user?.email}
               readOnly
               name="email"
@@ -92,7 +96,7 @@ export default function UpdateBookingForm({ data }) {
           <div>
             <Label htmlFor="phone">Phone</Label>
             <Input
-              defaultValue={data?.phone}
+              defaultValue={phone}
               name="phone"
               placeholder="+1 234 567 890"
             />
@@ -100,7 +104,7 @@ export default function UpdateBookingForm({ data }) {
 
           <div>
             <Label htmlFor="date">Date</Label>
-            <Input defaultValue={data?.date} name="date" type="date" />
+            <Input defaultValue={date} name="date" type="date" />
           </div>
         </div>
 
@@ -108,7 +112,7 @@ export default function UpdateBookingForm({ data }) {
         <div>
           <Label htmlFor="Address">Address</Label>
           <Input
-            defaultValue={data?.address}
+            defaultValue={address}
             name="address"
             placeholder="6/A Jerusalem St. Palestine"
           />
@@ -118,7 +122,7 @@ export default function UpdateBookingForm({ data }) {
         <div>
           <Label htmlFor="message">Message</Label>
           <Textarea
-            defaultValue={data?.message}
+            defaultValue={message}
             name="message"
             placeholder="Enter your message"
             rows={2}

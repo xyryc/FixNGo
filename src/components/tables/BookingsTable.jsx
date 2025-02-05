@@ -21,6 +21,7 @@ const BookingsTable = ({ data }) => {
             <TableHead>Service Name</TableHead>
             <TableHead>Price</TableHead>
             <TableHead className="text-right">Date</TableHead>
+            <TableHead className="text-right">Address</TableHead>
             <TableHead className="text-right">Actions</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -41,6 +42,7 @@ const BookingsTable = ({ data }) => {
               <TableCell className="font-bold">{item.service_name}</TableCell>
               <TableCell>${item.service_price}</TableCell>
               <TableCell className="text-right">{item.date}</TableCell>
+              <TableCell className="text-right">{item.address}</TableCell>
               <TableCell className="text-right">
                 <Link href={`/my-bookings/${item._id}`}>
                   <Button>Update</Button>

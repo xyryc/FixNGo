@@ -74,12 +74,11 @@ export default function CheckoutForm({ data }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name Fields */}
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
           <div>
             <Label htmlFor="name">Name</Label>
             <Input
-              className="bg-black/10"
+              className="bg-black/10 cursor-not-allowed"
               defaultValue={session?.user?.name}
               name="name"
               placeholder="John"
@@ -90,7 +89,7 @@ export default function CheckoutForm({ data }) {
           <div>
             <Label htmlFor="email">Email</Label>
             <Input
-              className="bg-black/10"
+              className="bg-black/10 cursor-not-allowed"
               defaultValue={session?.user?.email}
               readOnly
               name="email"
