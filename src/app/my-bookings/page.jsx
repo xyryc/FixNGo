@@ -12,7 +12,7 @@ const fetchBookings = async () => {
 
 const MyBookingsPage = async () => {
   const data = await fetchBookings();
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
