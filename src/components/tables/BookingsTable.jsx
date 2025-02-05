@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -9,6 +8,8 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import DeleteBookingButton from "@/app/my-bookings/components/DeleteBookingButton";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const BookingsTable = ({ data }) => {
   return (
@@ -20,7 +21,8 @@ const BookingsTable = ({ data }) => {
             <TableHead>Service Name</TableHead>
             <TableHead>Price</TableHead>
             <TableHead className="text-right">Date</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -39,6 +41,11 @@ const BookingsTable = ({ data }) => {
               <TableCell className="font-bold">{item.service_name}</TableCell>
               <TableCell>${item.service_price}</TableCell>
               <TableCell className="text-right">{item.date}</TableCell>
+              <TableCell className="text-right">
+                <Link href={`/my-bookings/${item._id}`}>
+                  <Button>Update</Button>
+                </Link>
+              </TableCell>
               <TableCell className="text-right">
                 <DeleteBookingButton id={item._id} />
               </TableCell>
