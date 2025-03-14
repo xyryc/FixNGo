@@ -17,7 +17,7 @@ FixNGo is a **car repair service shop web application** built with **Next.js**, 
 ## 🛠️ Technologies Used
 
 - Frontend: Next.js, Tailwind CSS, shadcn/ui
-- Backend: API Routes (Next.js) / Node.js + Express
+- Backend: API Routes (Next.js)
 - Database: MongoDB
 - Authentication: NextAuth.js Auth
 
