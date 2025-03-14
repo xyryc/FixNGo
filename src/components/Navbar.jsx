@@ -27,21 +27,21 @@ export default function Navbar() {
       <Link href="/" className="hover:text-gray-600">
         Home
       </Link>
-      <Link href="/about" className="hover:text-gray-600">
+      {/* <Link href="/about" className="hover:text-gray-600">
         About
-      </Link>
-      <Link href="/services" className="hover:text-gray-600">
+      </Link> */}
+      {/* <Link href="/services" className="hover:text-gray-600">
         Services
-      </Link>
+      </Link> */}
       <Link href="/my-bookings" className="hover:text-gray-600">
         Bookings
       </Link>
-      <Link href="/blogs" className="hover:text-gray-600">
+      {/* <Link href="/blogs" className="hover:text-gray-600">
         Blog
       </Link>
       <Link href="/contact" className="hover:text-gray-600">
         Contact
-      </Link>
+      </Link> */}
     </>
   );
 

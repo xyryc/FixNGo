@@ -4,7 +4,7 @@ import React from "react";
 
 const fetchBookings = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/service`, {
-    headers: await headers(),
+    headers: new Headers(await headers()),
   });
   const data = await res.json();
   return data;
@@ -12,7 +12,7 @@ const fetchBookings = async () => {
 
 const MyBookingsPage = async () => {
   const data = await fetchBookings();
-  // console.log(data);
+  console.log(data);
 
   return (
     <div>
