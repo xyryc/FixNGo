@@ -19,7 +19,7 @@ const SocialLogin = () => {
       router.push("/");
       toast.success("Logged in using Google");
     }
-  }, [session?.status]);
+  }, [session?.status, router]);
 
   return (
     <div>
