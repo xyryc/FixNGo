@@ -11,6 +11,7 @@ jobs:
 
     env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      echo $MONGODB_URI
 
     steps:
       # Step 1: Checkout Code
