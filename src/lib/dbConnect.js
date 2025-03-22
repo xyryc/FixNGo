@@ -6,15 +6,24 @@ export const collectionNames = {
   bookingsCollection: "bookings",
 };
 
-export default function dbConnect(collectionName) {
-  const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
-  const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-  });
+const client = new MongoClient(process.env.MONGODB_URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 
-  return client.db(process.env.DB_NAME).collection(collectionName);
+export default async function dbConnect(collectionName) {
+  try {
+    // Make sure the client is connected before accessing the database
+    if (!client.isConnected()) {
+      await client.connect();
+    }
+
+    return client.db(process.env.DB_NAME).collection(collectionName);
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    throw new Error("Failed to connect to the database");
+  }
 }
